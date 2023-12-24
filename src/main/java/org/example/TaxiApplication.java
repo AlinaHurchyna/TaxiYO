@@ -1,7 +1,5 @@
 package org.example;
 
-import org.hibernate.boot.archive.scan.spi.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
@@ -104,7 +102,7 @@ public class TaxiApplication {
     public TaxiApplication(TaxiRepository taxiRepository) {
     }
 
-    public static void addTaxi(String registrationNumber) {
+    public static void addTaxi(Taxi registrationNumber) {
         Taxi taxi = new Taxi(registrationNumber);
         taxis.add(taxi);
         System.out.println("Taxi added: " + taxi);
