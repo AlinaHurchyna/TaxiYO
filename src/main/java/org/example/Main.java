@@ -3,16 +3,11 @@ package org.example;
 import java.util.List;
 import java.util.Scanner;
 
-import java.util.Scanner;
-import java.util.List;
-
 public class Main {
-
     public static void main(String[] args) {
-        TaxiApplication application = new TaxiApplication();
-
-        application.addTaxi("XYZ123");
-        application.addTaxi("ABC456");
+        TaxiRepository taxiRepository = new JdbcTaxiRepository();
+        TaxiApplication taxiApplication = new TaxiApplication(taxiRepository);
+        taxiApplication.initialize();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -21,35 +16,35 @@ public class Main {
             System.out.println("2. End Taxi Ride");
             System.out.println("3. Display Ride History");
             System.out.println("4. Exit");
-            System.out.println("Choose an option: ");
+            System.out.println("Choose option: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
 
             switch (choice) {
                 case 1:
-                    System.out.println("Enter customer's first name: ");
-                    String firstName = scanner.nextLine();
-                    System.out.println("Enter customer's last name: ");
-                    String lastName = scanner.nextLine();
-                    System.out.println("Enter customer's phone number: ");
+                    System.out.println("Enter client's name: ");
+                    String name = scanner.nextLine();
+                    System.out.println("Enter client's surname: ");
+                    String surname = scanner.nextLine();
+                    System.out.println("Enter client's phone number: ");
                     String phoneNumber = scanner.nextLine();
 
-                    Client client = application.addClient(firstName, lastName, phoneNumber);
-                    application.orderTaxi(client);
+                    Client client = new Client(name, surname, phoneNumber);
+                    taxiApplication.orderTaxi(client);
                     break;
                 case 2:
                     System.out.println("Enter taxi registration number: ");
                     String registrationNumber = scanner.nextLine();
-                    Taxi taxi = findTaxi(application, registrationNumber);
+                    Taxi taxi = taxiApplication.findTaxiByRegistrationNumber(registrationNumber);
                     if (taxi != null) {
-                        application.endRideAndAddToHistory(taxi);
+                        taxiApplication.endRideAndAddToHistory(taxi);
                     } else {
-                        System.out.println("No taxi with the specified registration number.");
+                        System.out.println("No taxi with the provided registration number.");
                     }
                     break;
                 case 3:
-                    displayRideHistory(application);
+                    displayRideHistory(taxiApplication);
                     break;
                 case 4:
                     System.exit(0);
@@ -60,21 +55,12 @@ public class Main {
         }
     }
 
-    private static Taxi findTaxi(TaxiApplication application, String registrationNumber) {
-        for (Taxi taxi : application.getTaxis()) {
-            if (taxi.getRegistrationNumber().equals(registrationNumber)) {
-                return taxi;
-            }
-        }
-        return null;
-    }
-
-    private static void displayRideHistory(TaxiApplication application) {
-        List<Ride> rideHistory = application.getRideHistory();
+    private static void displayRideHistory(TaxiApplication taxiApplication) {
+        List<Ride> rideHistory = taxiApplication.getRideHistory();
         if (rideHistory.isEmpty()) {
             System.out.println("No ride history.");
         } else {
-            System.out.println("Ride history:");
+            System.out.println("Ride History:");
             for (Ride ride : rideHistory) {
                 System.out.println(ride);
             }
