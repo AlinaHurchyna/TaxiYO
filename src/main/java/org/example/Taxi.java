@@ -1,5 +1,4 @@
 package org.example;
-import java.util.Objects;
 
 class Taxi {
     private String registrationNumber;
@@ -7,6 +6,10 @@ class Taxi {
 
     public Taxi(String registrationNumber) {
         this.registrationNumber = registrationNumber;
+        this.available = true;
+    }
+
+    public Taxi(Taxi taxi ) { this.registrationNumber = taxi.getRegistrationNumber();
         this.available = true;
     }
 

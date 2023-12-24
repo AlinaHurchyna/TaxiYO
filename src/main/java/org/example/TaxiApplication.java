@@ -102,7 +102,7 @@ public class TaxiApplication {
     public TaxiApplication(TaxiRepository taxiRepository) {
     }
 
-    public static void addTaxi(Taxi registrationNumber) {
+    public static void addTaxi(String registrationNumber) {
         Taxi taxi = new Taxi(registrationNumber);
         taxis.add(taxi);
         System.out.println("Taxi added: " + taxi);
