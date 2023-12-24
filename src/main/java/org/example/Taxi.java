@@ -1,7 +1,9 @@
 package org.example;
 
+import java.util.Objects;
+
 class Taxi {
-    private String numerRejestracyjny;
+    private final String numerRejestracyjny;
     private boolean dostepne;
     private Kurs aktualnyKurs;
 
@@ -20,15 +22,6 @@ class Taxi {
 
     public Kurs getAktualnyKurs() {
         return aktualnyKurs;
-    }
-
-    public void rozpocznijKurs(String poczatek, String koniec) {
-        if (dostepne) {
-            this.aktualnyKurs = new Kurs(poczatek, koniec, 0, getCurrentTime(), null);
-            this.dostepne = false;
-        } else {
-            System.out.println("Taxi zajęte. Nie można rozpocząć nowego kursu.");
-        }
     }
 
     public void zakonczKurs() {
@@ -54,5 +47,24 @@ class Taxi {
 
     public void setDostepne(boolean dostepne) {
         this.dostepne = dostepne;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Taxi taxi = (Taxi) o;
+        return dostepne == taxi.dostepne &&
+                Objects.equals(numerRejestracyjny, taxi.numerRejestracyjny) &&
+                Objects.equals(aktualnyKurs, taxi.aktualnyKurs);
+    }
+    public int hashCode() {
+        return Objects.hash(numerRejestracyjny, dostepne, aktualnyKurs);
+    }
+    public String toString() {
+        return "Taxi{" +
+                "numerRejestracyjny='" + numerRejestracyjny + '\'' +
+                ", dostepne=" + dostepne +
+                ", aktualnyKurs=" + aktualnyKurs +
+                '}';
     }
 }
