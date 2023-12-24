@@ -3,77 +3,80 @@ package org.example;
 import java.util.List;
 import java.util.Scanner;
 
+import java.util.Scanner;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
-        TaxiAplikacja aplikacja = new TaxiAplikacja();
+        TaxiApplication application = new TaxiApplication();
 
-        aplikacja.dodajTaxi("XYZ123");
-        aplikacja.dodajTaxi("ABC456");
+        application.addTaxi("XYZ123");
+        application.addTaxi("ABC456");
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("1. Zamów Taxi");
-            System.out.println("2. Zakończ kurs taksówki");
-            System.out.println("3. Wyświetl historię kursów");
-            System.out.println("4. Wyjście");
-            System.out.println("Wybierz opcję: ");
+            System.out.println("1. Order Taxi");
+            System.out.println("2. End Taxi Ride");
+            System.out.println("3. Display Ride History");
+            System.out.println("4. Exit");
+            System.out.println("Choose an option: ");
 
-            int wybor = scanner.nextInt();
-            scanner.nextLine(); // Konsumuj znak nowej linii
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
 
-            switch (wybor) {
+            switch (choice) {
                 case 1:
-                    System.out.println("Podaj imię klienta: ");
-                    String imie = scanner.nextLine();
-                    System.out.println("Podaj nazwisko klienta: ");
-                    String nazwisko = scanner.nextLine();
-                    System.out.println("Podaj numer telefonu klienta: ");
-                    String numerTelefonu = scanner.nextLine();
+                    System.out.println("Enter customer's first name: ");
+                    String firstName = scanner.nextLine();
+                    System.out.println("Enter customer's last name: ");
+                    String lastName = scanner.nextLine();
+                    System.out.println("Enter customer's phone number: ");
+                    String phoneNumber = scanner.nextLine();
 
-                    Klient klient = aplikacja.dodajKlienta(imie, nazwisko, numerTelefonu);
-                    aplikacja.zamowTaxi(klient);
+                    Client client = application.addClient(firstName, lastName, phoneNumber);
+                    application.orderTaxi(client);
                     break;
                 case 2:
-                    System.out.println("Podaj numer rejestracyjny taksówki: ");
-                    String numerRejestracyjny = scanner.nextLine();
-                    Taxi taxi = znajdzTaxi(aplikacja, numerRejestracyjny);
+                    System.out.println("Enter taxi registration number: ");
+                    String registrationNumber = scanner.nextLine();
+                    Taxi taxi = findTaxi(application, registrationNumber);
                     if (taxi != null) {
-                        aplikacja.zakonczKursITDodajDoHistorii(taxi);
+                        application.endRideAndAddToHistory(taxi);
                     } else {
-                        System.out.println("Brak taksówki o podanym numerze rejestracyjnym.");
+                        System.out.println("No taxi with the specified registration number.");
                     }
                     break;
                 case 3:
-                    wyswietlHistorieKursow(aplikacja);
+                    displayRideHistory(application);
                     break;
                 case 4:
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Niepoprawny wybór.");
+                    System.out.println("Invalid choice.");
             }
         }
     }
 
-    private static Taxi znajdzTaxi(TaxiAplikacja aplikacja, String numerRejestracyjny) {
-        for (Taxi taxi : aplikacja.getTaksowki()) {
-            if (taxi.getNumerRejestracyjny().equals(numerRejestracyjny)) {
+    private static Taxi findTaxi(TaxiApplication application, String registrationNumber) {
+        for (Taxi taxi : application.getTaxis()) {
+            if (taxi.getRegistrationNumber().equals(registrationNumber)) {
                 return taxi;
             }
         }
         return null;
     }
 
-    private static void wyswietlHistorieKursow(TaxiAplikacja aplikacja) {
-        List<Kurs> historiaKursow = aplikacja.getHistoriaKursow();
-        if (historiaKursow.isEmpty()) {
-            System.out.println("Brak historii kursów.");
+    private static void displayRideHistory(TaxiApplication application) {
+        List<Ride> rideHistory = application.getRideHistory();
+        if (rideHistory.isEmpty()) {
+            System.out.println("No ride history.");
         } else {
-            System.out.println("Historia kursów:");
-            for (Kurs kurs : historiaKursow) {
-                System.out.println(kurs);
+            System.out.println("Ride history:");
+            for (Ride ride : rideHistory) {
+                System.out.println(ride);
             }
         }
     }

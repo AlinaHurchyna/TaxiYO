@@ -2,69 +2,74 @@ package org.example;
 
 import java.util.Objects;
 
-class Taxi {
-    private final String numerRejestracyjny;
-    private boolean dostepne;
-    private Kurs aktualnyKurs;
+public class Taxi {
+    private final String registrationNumber;
+    private boolean available;
+    private Ride currentRide;
 
-    public Taxi(String numerRejestracyjny) {
-        this.numerRejestracyjny = numerRejestracyjny;
-        this.dostepne = true;
+    public Taxi(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+        this.available = true;
     }
 
-    public String getNumerRejestracyjny() {
-        return numerRejestracyjny;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public boolean isDostepne() {
-        return dostepne;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public Kurs getAktualnyKurs() {
-        return aktualnyKurs;
+    public Ride getCurrentRide() {
+        return currentRide;
     }
 
-    public void zakonczKurs() {
-        if (!dostepne && aktualnyKurs != null) {
-            aktualnyKurs.setCzasZakonczenia(getCurrentTime());
-            this.dostepne = true;
-            System.out.println("Kurs zakończony. Cena: " + obliczCeneKursu());
-            this.aktualnyKurs = null;
+    public void endRide() {
+        if (!available && currentRide != null) {
+            currentRide.setEndTime(getCurrentTime());
+            this.available = true;
+            System.out.println("Ride completed. Fare: " + calculateRidePrice());
+            this.currentRide = null;
         } else {
-            System.out.println("Taxi nie jest zajęte. Nie można zakończyć kursu.");
+            System.out.println("Taxi is not occupied. Cannot end the ride.");
         }
     }
 
-    private double obliczCeneKursu() {
-        // Logika obliczania ceny na podstawie odległości
-        return 30.0; // Przykładowa cena
+    private double calculateRidePrice() {
+        // Logic for calculating the fare based on distance
+        return 30.0; // Sample fare
     }
 
     private String getCurrentTime() {
-        // Pobierz aktualny czas
-        return "12:00"; // Przykładowy czas
+        // Get the current time
+        return "12:00"; // Sample time
     }
 
-    public void setDostepne(boolean dostepne) {
-        this.dostepne = dostepne;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Taxi taxi = (Taxi) o;
-        return dostepne == taxi.dostepne &&
-                Objects.equals(numerRejestracyjny, taxi.numerRejestracyjny) &&
-                Objects.equals(aktualnyKurs, taxi.aktualnyKurs);
+        return available == taxi.available &&
+                Objects.equals(registrationNumber, taxi.registrationNumber) &&
+                Objects.equals(currentRide, taxi.currentRide);
     }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(numerRejestracyjny, dostepne, aktualnyKurs);
+        return Objects.hash(registrationNumber, available, currentRide);
     }
+
+    @Override
     public String toString() {
         return "Taxi{" +
-                "numerRejestracyjny='" + numerRejestracyjny + '\'' +
-                ", dostepne=" + dostepne +
-                ", aktualnyKurs=" + aktualnyKurs +
+                "registrationNumber='" + registrationNumber + '\'' +
+                ", available=" + available +
+                ", currentRide=" + currentRide +
                 '}';
     }
 }
