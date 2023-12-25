@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTaxiRepository implements TaxiRepository {
+
+
     private final Connection connection;
 
-    private  final String SELECT_ALL_TAXIS_QUERY = "SELECT * FROM Taxi";
-    private  final String INSERT_TAXI_QUERY = "INSERT INTO Taxi (registration_number, available) VALUES (?, ?)";
-    private final String UPDATE_TAXI_STATUS_QUERY = "UPDATE Taxi SET available = ? WHERE registration_number = ?";
 
-    public JdbcTaxiRepository(Connection connection) {
-        this.connection = connection;
+    public JdbcTaxiRepository(DatabaseConnection databaseConnection) throws SQLException {
+        this.connection = databaseConnection.getConnection();
     }
+
 
     @Override
     public void initializeDatabase() {
@@ -46,8 +46,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
 
     @Override
     public void addTaxi(Taxi taxi) {
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TAXI_QUERY)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO Taxi (registration_number, available) VALUES (?, ?)")) {
             preparedStatement.setString(1, taxi.registrationNumber());
             preparedStatement.setBoolean(2, taxi.available());
             preparedStatement.executeUpdate();
@@ -58,8 +58,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
 
     @Override
     public void updateTaxiStatus(Taxi taxi) {
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TAXI_STATUS_QUERY)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE Taxi SET available = ? WHERE registration_number = ?")) {
             preparedStatement.setBoolean(1, taxi.available());
             preparedStatement.setString(2, taxi.registrationNumber());
             preparedStatement.executeUpdate();
@@ -71,9 +71,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
     @Override
     public List<Taxi> getAllTaxis() {
         List<Taxi> taxis = new ArrayList<>();
-        try (Connection connection = DatabaseConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL_TAXIS_QUERY);
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT registration_number, available FROM Taxi")) {
             while (resultSet.next()) {
                 String registrationNumber = resultSet.getString("registration_number");
                 boolean available = resultSet.getBoolean("available");
@@ -98,5 +97,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
     @Override
     public List<Ride> getRideHistory() {
         return null;
+    }
+
+    private class SELECT_ALL_TAXIS_QUERY {
     }
 }
