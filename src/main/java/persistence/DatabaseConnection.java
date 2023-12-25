@@ -16,7 +16,7 @@ public class DatabaseConnection {
         this.password = password;
     }
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(url, user, password);
         }
