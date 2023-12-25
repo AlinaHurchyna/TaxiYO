@@ -3,10 +3,6 @@ package entity;
 public record Taxi(String registrationNumber, boolean available) {
 
 
-    public Taxi withAvailability(boolean newAvailability) {
-        return new Taxi(registrationNumber, newAvailability);
-    }
-
     @Override
     public String toString() {
         return "Taxi{" +
@@ -19,11 +15,7 @@ public record Taxi(String registrationNumber, boolean available) {
         return registrationNumber;
     }
 
-    public void setRegistrationNumber(String registrationNumber) {
-
-    }
-
-    public void setAvailable(boolean available) {
+    public void setAvailable(boolean ignoredAvailable) {
     }
 
     public boolean isAvailable() {

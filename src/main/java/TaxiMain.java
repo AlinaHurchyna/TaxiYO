@@ -2,7 +2,6 @@ import com.mysql.cj.xdevapi.Client;
 import com.mysql.cj.xdevapi.Session;
 import entity.Ride;
 import entity.Taxi;
-import App.TaxiApplication;
 import persistence.JdbcTaxiRepository;
 import persistence.TaxiRepository;
 

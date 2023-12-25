@@ -35,7 +35,7 @@ public class JdbcTaxiRepository implements TaxiRepository {
 
     @Override
     public void loadTaxis() {
-        //dodawanie taksowki z bazy dannych
+
     }
 
     @Override

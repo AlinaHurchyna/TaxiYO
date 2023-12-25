@@ -1,5 +1,3 @@
-package App;
-
 import entity.Client;
 import entity.Ride;
 import entity.Taxi;

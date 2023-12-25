@@ -11,7 +11,7 @@ class DatabaseConnection {
     private static Connection connection;
 
     private DatabaseConnection() {
-        // Prywatny konstruktor, aby uniemożliwić utworzenie instancji
+
     }
 
     public static Connection getConnection() throws SQLException {
