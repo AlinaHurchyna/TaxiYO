@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTaxiRepository implements TaxiRepository {
-    private static final String SELECT_ALL_TAXIS_QUERY = "SELECT * FROM Taxi";
-    private static final String INSERT_TAXI_QUERY = "INSERT INTO Taxi (registration_number, available) VALUES (?, ?)";
-    private static final String UPDATE_TAXI_STATUS_QUERY = "UPDATE Taxi SET available = ? WHERE registration_number = ?";
+    private final Connection connection;
+
+    private  final String SELECT_ALL_TAXIS_QUERY = "SELECT * FROM Taxi";
+    private  final String INSERT_TAXI_QUERY = "INSERT INTO Taxi (registration_number, available) VALUES (?, ?)";
+    private final String UPDATE_TAXI_STATUS_QUERY = "UPDATE Taxi SET available = ? WHERE registration_number = ?";
+
+    public JdbcTaxiRepository(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public void initializeDatabase() {
