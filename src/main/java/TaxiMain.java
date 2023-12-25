@@ -3,13 +3,16 @@ import com.mysql.cj.xdevapi.Session;
 import entity.Ride;
 import entity.Taxi;
 import App.TaxiApplication;
+import persistence.JdbcTaxiRepository;
+import persistence.TaxiRepository;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class TaxiMain {
     public static void main(String[] args) {
-        TaxiApplication taxiApplication = new TaxiApplication();
+        TaxiRepository taxiRepository = new JdbcTaxiRepository();
+        TaxiApplication taxiApplication = new TaxiApplication(taxiRepository);
         taxiApplication.initialize();
 
         Scanner scanner = new Scanner(System.in);
