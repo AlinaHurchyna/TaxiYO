@@ -2,6 +2,7 @@ package entity;
 
 public record Taxi(String registrationNumber, boolean available) {
 
+
     public Taxi withAvailability(boolean newAvailability) {
         return new Taxi(registrationNumber, newAvailability);
     }
@@ -12,6 +13,21 @@ public record Taxi(String registrationNumber, boolean available) {
                 "registrationNumber='" + registrationNumber + '\'' +
                 ", available=" + available +
                 '}';
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+
+    }
+
+    public void setAvailable(boolean available) {
+    }
+
+    public boolean isAvailable() {
+        return false;
     }
 }
 
