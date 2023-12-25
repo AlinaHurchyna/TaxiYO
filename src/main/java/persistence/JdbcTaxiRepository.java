@@ -48,8 +48,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
     public void addTaxi(Taxi taxi) {
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TAXI_QUERY)) {
-            preparedStatement.setString(1, taxi.getRegistrationNumber());
-            preparedStatement.setBoolean(2, taxi.isAvailable());
+            preparedStatement.setString(1, taxi.registrationNumber());
+            preparedStatement.setBoolean(2, taxi.available());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,8 +60,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
     public void updateTaxiStatus(Taxi taxi) {
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TAXI_STATUS_QUERY)) {
-            preparedStatement.setBoolean(1, taxi.isAvailable());
-            preparedStatement.setString(2, taxi.getRegistrationNumber());
+            preparedStatement.setBoolean(1, taxi.available());
+            preparedStatement.setString(2, taxi.registrationNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

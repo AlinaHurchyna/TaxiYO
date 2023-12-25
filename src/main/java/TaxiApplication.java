@@ -22,9 +22,9 @@ public class TaxiApplication {
 
         Taxi availableTaxi = findAvailableTaxi();
         if (availableTaxi != null) {
-            availableTaxi.setAvailable(false);
+            availableTaxi.available();
             taxiRepository.updateTaxiStatus(availableTaxi);
-            System.out.println("Taxi ordered! Your taxi's registration number: " + availableTaxi.getRegistrationNumber());
+            System.out.println("Taxi ordered! Your taxi's registration number: " + availableTaxi.registrationNumber());
         } else {
             System.out.println("Sorry, no available taxis at the moment. Please try again later.");
         }
@@ -36,7 +36,7 @@ public class TaxiApplication {
     }
 
     public void endRideAndAddToHistory(Taxi taxi) {
-        taxi.setAvailable(true);
+        boolean available = taxi.available();
         taxiRepository.updateTaxiStatus(taxi);
 
     }
