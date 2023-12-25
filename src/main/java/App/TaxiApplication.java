@@ -113,7 +113,10 @@ public class TaxiApplication {
         }
     }
 
-    private Taxi findTaxiByRegistrationNumber(String registrationNumber) {
+    public Taxi findTaxiByRegistrationNumber(String registrationNumber) {
         return taxiRepository.findTaxiByRegistrationNumber(registrationNumber);
+    }
+
+    public void orderTaxi(com.mysql.cj.xdevapi.Client client) {
     }
 }
