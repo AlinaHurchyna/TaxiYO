@@ -1,4 +1,6 @@
-package org.example;
+package persistence;
+
+import entity.Taxi;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,19 +34,7 @@ public class JdbcTaxiRepository implements TaxiRepository {
 
     @Override
     public void loadTaxis() {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Taxi");
-            while (resultSet.next()) {
-                String registrationNumber = resultSet.getString("registration_number");
-                boolean available = resultSet.getBoolean("available");
-                Taxi taxi = new Taxi(registrationNumber);
-                taxi.setAvailable(available);
-                TaxiApplication.addTaxi(taxi);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -52,8 +42,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "INSERT INTO Taxi (registration_number, available) VALUES (?, ?)")) {
-            preparedStatement.setString(1, taxi.getRegistrationNumber());
-            preparedStatement.setBoolean(2, taxi.isAvailable());
+            preparedStatement.setString(1, taxi.registrationNumber());
+            preparedStatement.setBoolean(2, taxi.available());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,8 +55,8 @@ public class JdbcTaxiRepository implements TaxiRepository {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "UPDATE Taxi SET available = ? WHERE registration_number = ?")) {
-            preparedStatement.setBoolean(1, taxi.isAvailable());
-            preparedStatement.setString(2, taxi.getRegistrationNumber());
+            preparedStatement.setBoolean(1, taxi.available());
+            preparedStatement.setString(2, taxi.registrationNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,9 +72,7 @@ public class JdbcTaxiRepository implements TaxiRepository {
             while (resultSet.next()) {
                 String registrationNumber = resultSet.getString("registration_number");
                 boolean available = resultSet.getBoolean("available");
-                Taxi taxi = new Taxi(registrationNumber);
-                taxi.setAvailable(available);
-                taxis.add(taxi);
+                taxis.add(new Taxi(registrationNumber, available));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,3 +80,4 @@ public class JdbcTaxiRepository implements TaxiRepository {
         return taxis;
     }
 }
+

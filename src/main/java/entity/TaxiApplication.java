@@ -1,4 +1,6 @@
-package org.example;
+package entity;
+
+import persistence.TaxiRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,11 @@ public class TaxiApplication {
     private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
+
+    public static void addTaxis(Taxi taxis) {
+    }
+
+
     public void initialize() {
 
         taxis.add(new Taxi("ABC123"));

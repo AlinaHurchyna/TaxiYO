@@ -1,6 +1,6 @@
-package org.example;
+package entity;
 
-class Ride {
+public class Ride {
     private String startLocation;
     private String endLocation;
     private double fare;
