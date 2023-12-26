@@ -3,12 +3,13 @@ import entity.Ride;
 import entity.Taxi;
 import persistence.TaxiRepository;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class TaxiApplication {
     private final TaxiRepository taxiRepository;
 
-    public TaxiApplication(TaxiRepository taxiRepository) {
+    public TaxiApplication(Connection connection, TaxiRepository taxiRepository) {
         this.taxiRepository = taxiRepository;
     }
 

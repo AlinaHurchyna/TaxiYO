@@ -13,27 +13,23 @@ public class JdbcTaxiRepository implements TaxiRepository {
     private final Connection connection;
 
 
-    public JdbcTaxiRepository(DatabaseConnection databaseConnection) throws SQLException {
-        this.connection = databaseConnection.getConnection();
+    public JdbcTaxiRepository(Connection databaseConnection) throws SQLException {
+        this.connection = databaseConnection;
     }
 
 
     @Override
     public void initializeDatabase() {
-        try (Connection connection = DatabaseConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-
+        try (Statement statement = connection.createStatement()) {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS Taxi (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
                     "registration_number VARCHAR(255) NOT NULL," +
                     "available BOOLEAN NOT NULL)";
             statement.executeUpdate(createTableQuery);
 
-
             String insertDataQuery = "INSERT INTO Taxi (registration_number, available) VALUES " +
                     "('XYZ123', TRUE), ('ABC456', TRUE)";
             statement.executeUpdate(insertDataQuery);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,6 +95,5 @@ public class JdbcTaxiRepository implements TaxiRepository {
         return null;
     }
 
-    private class SELECT_ALL_TAXIS_QUERY {
-    }
+
 }
